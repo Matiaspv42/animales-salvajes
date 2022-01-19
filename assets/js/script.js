@@ -1,8 +1,8 @@
 import {Animal} from './animal.js'
 import { Oso, Lobo, Leon, Serpiente, Aguila } from './tipos-animales.js'
 
-// Obtencion de datos desde DOM 
 
+// Esta funcion instancia el animal dependiendo del tipo
 const instanciarAnimal =(tipoAnimal,edadAnimal,img,comentarios, sonido) =>{
     // Switch para instanciar el animal que corresponda (ahora si que no se me va a olvidar hacerlo ¯\_(ツ)_/¯)
     switch(tipoAnimal){
@@ -24,28 +24,46 @@ const instanciarAnimal =(tipoAnimal,edadAnimal,img,comentarios, sonido) =>{
     }
 }
 
-const obtenerData = async (tipoAnimal) => {
+const datos = (async ()=>{
     const response = await fetch('http://127.0.0.1:5500/animales.json')
     const json = await response.json()
-    const variable = json.animales.find(element => {
-        if(element.name === tipoAnimal){
-            return element
-        }
+    return json
+})()
+
+
+const obtenerData = async(tipoAnimal)=>{
+    const variable = datos.animales.find(element => {
+    if(element.name === tipoAnimal){
+        return element
+    }
     });
     return variable
 }
+
+// const obtenerData = async (tipoAnimal) => {
+//     const response = await fetch('http://127.0.0.1:5500/animales.json')
+//     const json = await response.json()
+//     const variable = json.animales.find(element => {
+//         if(element.name === tipoAnimal){
+//             return element
+//         }
+//     });
+//     return variable
+// }
 
 const modal = document.querySelector('.modal-body')
 
 const registrarAnimal = (animal) => {
     animales.push(animal) 
-    mostrarAnimales(animales)
+    mostrarAnimales(animales, animalesPlantilla)
 }
 
 
 // Esta funcion muestra los animales en la seccion "Animales en Investigacion"
-const mostrarAnimales = () => {
-    animales.forEach((animal) => {
+// Recibe como argumento un arreglo animales con todos los animales y la plantilla donde crear los animales
+const mostrarAnimales = (animales, animalesPlantilla) => {
+    // Recorre el arreglo animales y primero limpia el html y luego escribe 
+    animales.forEach(() => {
         animalesPlantilla.innerHTML = ''
         animales.forEach( (animal)=>{
             animalesPlantilla.innerHTML += `
@@ -91,9 +109,14 @@ const mostrarAnimales = () => {
 
 // Esta funcion limpia los datos del formulario
 const limpiarDatosFormulario = () => {
-    console.log('limpiando...');
+    // Obtemeos los elementos del formulario y seteamos sus valores a los iniciales
+    const formDropdown = document.querySelectorAll('.form-group select')
+    formDropdown.forEach((dropdown)=> dropdown.selectedIndex = '0' )
+    const formText= document.querySelector('.form-group textarea')
+    formText.value = '' 
+    const formImage = document.getElementById('preview')
+    formImage.style.backgroundImage = 'url(http://127.0.0.1:5500/assets//imgs/lion.svg)'
 }
-
 let animales = []
 let preview = document.querySelector('#preview')
 let animalesPlantilla = document.getElementById('Animales')
@@ -108,6 +131,8 @@ boton.addEventListener('click', async (e)=>{
     const tipoAnimal = document.getElementById('animal').value
     const edadAnimal = document.getElementById('edad').value
     const comentarios = document.getElementById('comentarios').value
+
+    // Verifico que todos los campos hayan sido llenados
     if(tipoAnimal && edadAnimal && comentarios){
     // Aqui va la promesa para obtener la imagen y el sonido
     data =  await obtenerData(tipoAnimal)
@@ -116,13 +141,15 @@ boton.addEventListener('click', async (e)=>{
     const urlSonido = `http://127.0.0.1:5500/assets/sounds/${sonidoAnimal}`
     const animal = instanciarAnimal(tipoAnimal, edadAnimal, urlImagen, comentarios, urlSonido)
     registrarAnimal(animal)
-    }else{
+    limpiarDatosFormulario()
+    }
+    //En caso que falte uno manda una alerta
+    else{
         alert('Por favor ingresa todos los datos!')
     }
 })
 
 let fuenteImagen = null
-let fuenteSonido = null
 const ruedaAnimal = document.getElementById('animal')
 
 ruedaAnimal.addEventListener('change', async ()=>{
