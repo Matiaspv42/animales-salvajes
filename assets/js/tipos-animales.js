@@ -5,7 +5,10 @@ class Leon extends Animal{
         super(nombre, edad, img, comentarios, sonido)
     }
 
-    Rugir(){}   
+    Rugir(){
+        const audio = new Audio(`${this.Sonido()}`)
+        audio.play()
+    }   
 }
 
 class Lobo extends Animal{
@@ -13,28 +16,40 @@ class Lobo extends Animal{
         super(nombre, edad, img, comentarios, sonido)
     }
 
-    Aullar(){}
+    Aullar(){
+        const audio = new Audio(`${this.Sonido()}`)
+        audio.play()
+    }
 }
 
 class Oso extends Animal{
     constructor(nombre, edad, img, comentarios, sonido){
         super(nombre, edad, img, comentarios, sonido)
     }
-    Gruñir(){}
+    Gruñir(){
+        const audio = new Audio(`${this.Sonido()}`)
+        audio.play()
+    }
 }
 
 class Serpiente extends Animal{
     constructor(nombre, edad, img, comentarios, sonido){
         super(nombre, edad, img, comentarios, sonido)
     }
-    Sisear(){}
+    Sisear(){
+        const audio = new Audio(`${this.Sonido()}`)
+        audio.play()
+    }
 }
 
 class Aguila extends Animal{
     constructor(nombre, edad, img, comentarios, sonido){
         super(nombre, edad, img, comentarios, sonido)
     }
-    Chillar(){}
+    Chillar(){
+        const audio = new Audio(`${this.Sonido()}`)
+        audio.play()
+    }
 }
 
 export {Leon, Lobo, Oso, Serpiente, Aguila}

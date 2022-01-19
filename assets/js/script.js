@@ -24,32 +24,25 @@ const instanciarAnimal =(tipoAnimal,edadAnimal,img,comentarios, sonido) =>{
     }
 }
 
+// Aqui esta la IIFE que va a pedir el json
+// Es una consulta asincronica que obtiene las imagenes y todos los datos de los animales
+// Me parecio interesante hacer que se pida la base de datos de manera automatica al momento de cargar la pagina
 const datos = (async ()=>{
     const response = await fetch('http://127.0.0.1:5500/animales.json')
-    const json = await response.json()
-    return json
+    return response.json()
 })()
 
-
+// Se realiza una consulta asinc
 const obtenerData = async(tipoAnimal)=>{
-    const variable = datos.animales.find(element => {
-    if(element.name === tipoAnimal){
-        return element
-    }
-    });
+    const variable = await datos.then(json => {
+        return json.animales.find(element => {
+            if(element.name === tipoAnimal){
+                return element
+            }
+        })
+    })
     return variable
 }
-
-// const obtenerData = async (tipoAnimal) => {
-//     const response = await fetch('http://127.0.0.1:5500/animales.json')
-//     const json = await response.json()
-//     const variable = json.animales.find(element => {
-//         if(element.name === tipoAnimal){
-//             return element
-//         }
-//     });
-//     return variable
-// }
 
 const modal = document.querySelector('.modal-body')
 
@@ -101,6 +94,7 @@ const mostrarAnimales = (animales, animalesPlantilla) => {
         console.log(sonidoAnimal.dataset.sonido);
         sonidoAnimal.addEventListener('click',()=>{
             const audio = new Audio(`${sonidoAnimal.dataset.sonido}`)
+            console.log(audio);
             audio.play()
         })
         
@@ -124,8 +118,13 @@ let animalesPlantilla = document.getElementById('Animales')
 let imagenesAnimales = null
 
 let data = null
+let fuenteImagen = null
+
+const ruedaAnimal = document.getElementById('animal')
 
 const boton = document.getElementById('btnRegistrar')
+
+// Se agrega el EventListener para escuchar cuando se haga click en boton Agregar
 boton.addEventListener('click', async (e)=>{
     e.preventDefault()
     const tipoAnimal = document.getElementById('animal').value
@@ -149,9 +148,9 @@ boton.addEventListener('click', async (e)=>{
     }
 })
 
-let fuenteImagen = null
-const ruedaAnimal = document.getElementById('animal')
 
+
+// Se agrega el EventListener para escuchar cuando se cambie los cambios de la rueda y así ir poniendo las imagenes del animal que corresponde
 ruedaAnimal.addEventListener('change', async ()=>{
     const tipoAnimal = document.getElementById('animal').value
     data =  await obtenerData(tipoAnimal)
@@ -161,4 +160,10 @@ ruedaAnimal.addEventListener('change', async ()=>{
     fuenteImagen = await preview.style.backgroundImage
 })
 
+
+
+// Esta linea está solo para verificar que el metodo Rugir y los demás funcionan
+
+// const leon = new Leon('leon','12','ddd','comentario','http://127.0.0.1:5500/assets/sounds/Rugido.mp3')
+// leon.Rugir()
 
