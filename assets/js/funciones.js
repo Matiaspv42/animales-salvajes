@@ -31,7 +31,6 @@ const registrarAnimal = (animal, animalesPlantilla,animales) => {
 // Esta funcion muestra los animales en la seccion "Animales en Investigacion"
 // Recibe como argumento un arreglo animales con todos los animales y la plantilla donde crear los animales
 const mostrarAnimales = (animales, animalesPlantilla) => {
-    console.log(animales);
     // Recorre el arreglo animales, primero limpia el html y luego escribe 
     // Agrega la informacion necesaria a la img del animal en forma de data
     // y agrega el sonido como data en el boton del sonido para poder accederlos mas tarde
