@@ -52,7 +52,7 @@ boton.addEventListener('click', async (e)=>{
     data =  await obtenerData(tipoAnimal)
     const sonidoAnimal = await data.sonido
     const urlImagen = fuenteImagen.slice(5,-2)
-    const urlSonido = `http://127.0.0.1:5500/assets/sounds/${sonidoAnimal}`
+    const urlSonido = `./assets/sounds/${sonidoAnimal}`
     const animal = instanciarAnimal(tipoAnimal, edadAnimal, urlImagen, comentarios, urlSonido)
     registrarAnimal(animal, animalesPlantilla, animales)
     limpiarDatosFormulario()
@@ -68,7 +68,7 @@ ruedaAnimal.addEventListener('change', async ()=>{
     const tipoAnimal = document.getElementById('animal').value
     data =  await obtenerData(tipoAnimal)
     const imgAnimal = await data.imagen
-    const imgUrl = `http://127.0.0.1:5500/assets/imgs/${imgAnimal}`
+    const imgUrl = `./assets/imgs/${imgAnimal}`
     preview.style.backgroundImage =  `url(${imgUrl})`
     fuenteImagen = await preview.style.backgroundImage
 })
