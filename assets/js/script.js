@@ -9,7 +9,7 @@ import {instanciarAnimal, registrarAnimal,limpiarDatosFormulario} from './funcio
 // Es una consulta asincronica que obtiene las imagenes y todos los datos de los animales
 // Me parecio interesante hacer que se pida la base de datos de manera automatica al momento de cargar la pagina
 const datos = (async ()=>{
-    const response = await fetch('http://127.0.0.1:5500/animales.json')
+    const response = await fetch('./animales.json')
     return response.json()
 })()
 
