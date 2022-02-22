@@ -88,7 +88,7 @@ const limpiarDatosFormulario = () => {
     const formText= document.querySelector('.form-group textarea')
     formText.value = '' 
     const formImage = document.getElementById('preview')
-    formImage.style.backgroundImage = 'url(./assets//imgs/lion.svg)'
+    formImage.style.backgroundImage = 'url(./assets/imgs/lion.svg)'
 }
 
 export {instanciarAnimal, registrarAnimal,limpiarDatosFormulario}
