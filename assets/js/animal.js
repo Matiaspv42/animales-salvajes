@@ -27,7 +27,6 @@
         return this.getComentarios
     }
     set Comentarios(nuevo_comentario){
-        // Terminar de hacer esto
     }
     get Sonido(){
         return this.getSonido
